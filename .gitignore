@@ -1,0 +1,8 @@
+# 에디터/도구 폴더
+.claude/
+.vscode/
+.idea/
+
+# OS 부산물
+.DS_Store
+Thumbs.db
