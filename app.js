@@ -220,10 +220,14 @@ function pick(name,el){
   const secondTry = S.attempt===2;
 
   if(ok){
-    if(secondTry){ S.score += 50; S.recovered.push({...w}); }
-    else{ S.combo++; S.score += 100 + Math.min(S.combo-1,5)*20; }
+    if(secondTry){
+      S.score += 50; S.recovered.push({...w});
+      S.wrongBank[w.s]={...w}; saveProgress();   // 재도전으로 맞혀도 "한 번 틀린" 것이므로 복습 대상에 포함
+    }else{
+      S.combo++; S.score += 100 + Math.min(S.combo-1,5)*20;
+      if(S.wrongBank[w.s]){ delete S.wrongBank[w.s]; saveProgress(); }   // 첫 시도 정답 → 확실히 아는 것 → 은행에서 제거
+    }
     card.classList.add('drop');
-    if(S.wrongBank[w.s]){ delete S.wrongBank[w.s]; saveProgress(); }
   }else{
     S.combo=0;
     S.wrong.push({...w,pick:name,ans});
